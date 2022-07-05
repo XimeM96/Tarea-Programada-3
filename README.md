@@ -24,7 +24,7 @@ Una tienda se constituye por:
 |       Campo       | Offset |   Bytes   |
 | ----------------- |:------:|:---------:|
 | Nombre            | 0      | 15        |
-| Direccion Intenet | 15     | 24        |
+| DireccionInternet | 15     | 24        |
 | Dieccion Física   | 39     | 24        |
 | Teléfono          | 63     |  8        |
 
