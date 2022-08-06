@@ -2,12 +2,13 @@
 
 Estudiante: Jimena Méndez Chacón | Carné: B84832 | Curso: Programación II | Profesor: Mauricio Ulate Quirós
 
-Consiste de una biblioteca que permite administrar las existencias de los productos de una tienda. Permite:
+Consiste de una librería que permite administrar los productos de una tienda. Permite:
 
-1. Agregar productos
-2. Modificar productos
-3. Listar la totalidad de los productos
+1. Crear una tienda
+2. Crear productos y agregarlos a una tienda
+3. Modificar productos
 4. Eliminar productos
+5. Listar todos los productos
 
 Un producto se constituye por:
 
@@ -21,12 +22,12 @@ Un producto se constituye por:
 Una tienda se constituye por:
 
 
-|       Campo       | Offset |   Bytes   |
-| ----------------- |:------:|:---------:|
-| Nombre            | 0      | 15        |
-| Direccion Intenet | 15     | 24        |
-| Dieccion Física   | 39     | 24        |
-| Teléfono          | 63     |  8        |
+|       Campo        | Offset |   Bytes   |
+| -----------------  |:------:|:---------:|
+| Nombre             | 0      | 15        |
+| Direccion Web      | 15     | 24        |
+| Direccion Física   | 39     | 24        |
+| Teléfono           | 63     |  8        |
 
 
 # Instrucciones de compilación:
