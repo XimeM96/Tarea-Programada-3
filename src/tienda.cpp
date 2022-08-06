@@ -3,12 +3,19 @@
 #include <string>
 #include <string.h>
 #include <iostream>
-#include "tienda.h"
+#include <sstream>
+#include <regex>
+#include <cstring>
+
 
 using namespace std;
 
 Tienda::Tienda()
 {
+    strcpy(this->nombre, "");
+    strcpy(this->direccionDeInternet, "");
+    strcpy(this->direccionFisica, "");
+    strcpy(this->telefono, "");
 }
 
 Tienda::Tienda(string nombreTienda, string dirWeb, string dirFisica, string telefono){
@@ -17,23 +24,26 @@ Tienda::Tienda(string nombreTienda, string dirWeb, string dirFisica, string tele
     {
         throw ExcepcionNombreTienda();
     }
-    if (dirWeb.size() == 0 || dirWeb.size() > 24)
+    else if (dirWeb.size() == 0 || dirWeb.size() > 24)
     {
         throw ExcepcionDireccionInternet();
     }
-    if (dirFisica.size() == 0 || dirFisica.size() > 24)
+    else if (dirFisica.size() == 0 || dirFisica.size() > 24)
     {
         throw ExcepcionDireccionFisica();
     }
-    if (telefono.size() == 0 || telefono.size() > 8);
+    else if (telefono.size() > 8 || telefono.size() <= 0)
     {
-        throw ExcepcionTelefonoTiendaInvalido();
-    }
+       throw ExcepcionTelefono();
+        
+    } else{
 
     strcpy(this->nombre, nombreTienda.c_str());
     strcpy(this->direccionDeInternet, dirWeb.c_str());
     strcpy(this->direccionFisica, dirFisica.c_str());
     strcpy(this->telefono, telefono.c_str());
+
+    }
 }
 
 Tienda::~Tienda()
@@ -44,46 +54,86 @@ Tienda::~Tienda()
     }
 }
 
-string Tienda::getNombre(string nom)
+void Tienda::CrearTienda(string nombreTienda, string dirWeb, string dirFisica, string telefono){
 
-{
+    if (nombreTienda.size() == 0 || nombreTienda.size() > 15)
+    {
+        throw ExcepcionNombreTienda();
+    }
+    else if (dirWeb.size() == 0 || dirWeb.size() > 24)
+    {
+        throw ExcepcionDireccionInternet();
+    }
+    else if (dirFisica.size() == 0 || dirFisica.size() > 24)
+    {
+        throw ExcepcionDireccionFisica();
+    }
+    else if (telefono.size() > 8 || telefono.size() <= 0)
+    {
+       throw ExcepcionTelefono();
+    } else{
 
-    string nombre = {strcpy(this->nombre, nom.c_str())};
+    strcpy(this->nombre, nombreTienda.c_str());
+    strcpy(this->direccionDeInternet, dirWeb.c_str());
+    strcpy(this->direccionFisica, dirFisica.c_str());
+    strcpy(this->telefono, telefono.c_str());
 
-    return nombre;
+    }
 
 }
 
-string Tienda::getDireccionDeInternet(string direccionWeb)
+string Tienda::getNombre()
+
 {
 
-    string direccionDeInternet = string {strcpy(this->direccionDeInternet, direccionWeb.c_str())};
+    return this->nombre;
 
-    return direccionDeInternet;
 }
 
-string Tienda::getDireccionFisica(string direccionF)
+string Tienda::getDireccionDeInternet()
 {
 
-    string direccionFisica = string {strcpy(this->direccionFisica, direccionF.c_str())};
+    return this->direccionDeInternet;
 
-    return direccionFisica;
 }
 
-string Tienda::getTelefono(string tel)
+string Tienda::getDireccionFisica()
 {
 
-    string telefono = string {strcpy(this->telefono, tel.c_str())};
+    return this->direccionFisica;
 
-    return telefono;
 }
 
-void Tienda::agregarProducto(Producto *p)
+string Tienda::getTelefono()
+{
+
+    return this->telefono;
+
+}
+
+Producto* Tienda::getProducto(int id){
+
+    if (id <= 0)
+    {
+        throw ExcepcionIDProducto();
+    }
+
+    return this->arregloDeProductos.at(id - 1);
+
+}
+
+int Tienda::getCantidadProductos(){
+
+
+    return this->arregloDeProductos.size();
+}
+
+void Tienda::AgregarProducto(Producto *p)
 {
     this->arregloDeProductos.push_back(p);
 }
 
-void Tienda::eliminarProducto(int idProd){
+void Tienda::EliminarProducto(int idProd){
 
     if(idProd < 0){
 
@@ -100,17 +150,42 @@ void Tienda::eliminarProducto(int idProd){
     }
 }
 
-void Tienda::modificarProducto(int idProd,string nom, int exis){
-     for(int i = 0; i<arregloDeProductos.size();i++){
-         if(arregloDeProductos.at(i)->getIdProducto() == idProd){ 
-             arregloDeProductos.at(i)->setNombreProducto(nom);
-             arregloDeProductos.at(i)->setExistenciasTotales(exis);
-         }
-     }
+void Tienda::ModificarProducto(int idProd,string nom, int exis){
+
+    if (idProd <= 0 ){
+
+        throw ExcepcionIDProducto();
+
+    } else if(nom.size() == 0 || nom.size() > 20){
+
+        throw ExcepcionNombreProducto();
+
+    } else if (exis < 0){
+
+        throw ExcepcionExistenciasDisponibles();
+
+    } 
+    
+    else {
+    
+        for(int i = 0; i < arregloDeProductos.size();i++){
+
+            if(arregloDeProductos.at(i)->getIdProducto() == idProd){ 
+                arregloDeProductos.at(i)->setNombreProducto(nom);
+                arregloDeProductos.at(i)->setExistenciasTotales(exis);
+            }
+        }
+
+    }
 }
 
 
-void Tienda::generarStreamBinario(ostream *streamSalida){
+void Tienda::GuardarStreamBinario(ostream *streamSalida){
+
+    streamSalida->write(this->nombre, 15);
+    streamSalida->write(this->direccionDeInternet, 24);
+    streamSalida->write(this->direccionFisica, 24);
+    streamSalida->write(this->telefono, 8);
 
     for (Producto *producto : this->arregloDeProductos)
     {
@@ -118,10 +193,11 @@ void Tienda::generarStreamBinario(ostream *streamSalida){
     }
 }
 
-string Tienda::consultarInventario() {
+string Tienda::ConsultarInventario() {
+
     stringstream s;
-    s << this->getNombre(nombre) << " " << this->getDireccionDeInternet(direccionDeInternet) << " " << this->getDireccionFisica(direccionFisica)
-      << " " << this->getTelefono(telefono) << endl;
+    s << this->getNombre() << " " << this->getDireccionDeInternet() << " " << this->getDireccionFisica()
+      << " " << this->getTelefono() << endl;
 
     for (int i = 0; i < arregloDeProductos.size(); i++)
     {
@@ -132,3 +208,43 @@ string Tienda::consultarInventario() {
     }
     return s.str(); 
 }
+
+void Tienda::CargarStreamBinario(istream *streamEntrada){
+
+
+    streamEntrada->read(this->nombre, 15);
+    streamEntrada->read(this->direccionDeInternet, 24);
+    streamEntrada->read(this->direccionFisica, 24);
+    streamEntrada->read(this->telefono, 8);
+
+    streamEntrada->seekg(0, ios::end);
+    int cantidadBytesArchivo = streamEntrada->tellg();
+    int cantidadProductos = (cantidadBytesArchivo - 71) / sizeof(Producto);
+    
+    streamEntrada->seekg(71);
+    for (int indice = 0; indice < cantidadProductos; indice++)
+    {
+        Producto *producto = new Producto();
+        streamEntrada->read((char *)producto, sizeof(Producto));
+
+        this->AgregarProducto(producto);
+    }
+}
+    
+ostream& operator << (ostream &o, const Tienda *tienda){
+
+    o << tienda->nombre << endl
+      << tienda->direccionDeInternet << endl
+      << tienda->direccionFisica << endl
+      << tienda->telefono << endl;
+
+    for (Producto *producto : tienda->arregloDeProductos)
+    {
+        o << producto << endl;
+    }
+    
+    return o;
+
+    
+}
+

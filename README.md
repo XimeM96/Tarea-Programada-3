@@ -24,14 +24,14 @@ Una tienda se constituye por:
 |       Campo       | Offset |   Bytes   |
 | ----------------- |:------:|:---------:|
 | Nombre            | 0      | 15        |
-| DireccionInternet | 15     | 24        |
+| Direccion Intenet | 15     | 24        |
 | Dieccion Física   | 39     | 24        |
 | Teléfono          | 63     |  8        |
 
 
-Instrucciones de compilación:
+# Instrucciones de compilación:
 
-Para compilar la biblioteca, ejecute esta instrucción:
+Para compilar la librería, ejecute esta instrucción:
 
 make
 

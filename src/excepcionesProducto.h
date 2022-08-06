@@ -6,12 +6,12 @@
 
 using namespace std;
 
-class ExcepcionNombreProductoInvalido : public exception{
+class ExcepcionNombreProducto : public exception{
 
     public:
 
-        ExcepcionNombreProductoInvalido() noexcept = default;
-        ~ExcepcionNombreProductoInvalido() = default;
+        ExcepcionNombreProducto() noexcept = default;
+        ~ExcepcionNombreProducto() = default;
 
     virtual const char* what() const noexcept {
         return "Ingrese un nombre valido. El nombre del producto no debe ser 0 ni exceder los 20 caracteres.";

@@ -1,7 +1,6 @@
 #ifndef TIENDA_H
 #define TIENDA_H
 #include "producto.h"
-#include "biblioteca.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -18,32 +17,36 @@ class Tienda {
     char direccionDeInternet[24];
     char direccionFisica[24];
     char telefono[8];
+    vector <Producto*> arregloDeProductos;
 
     public:
 
     Tienda();
     Tienda(string, string, string , string);
     ~Tienda();
-
-    vector <Producto*> arregloDeProductos;
-
-    string getNombre(string);
-    string getDireccionDeInternet(string);
-    string getDireccionFisica(string);
-    string getTelefono(string);
+    
+    string getNombre();
+    string getDireccionDeInternet();
+    string getDireccionFisica();
+    string getTelefono();
+    int getCantidadProductos();
+    Producto *getProducto(int idProducto);
 
     void setNombre(string);
     void setDireccionDeInternet(string);
     void setDireccionFisica(string);
     void setTelefono(string);
 
-    void agregarProducto(Producto*);
-    void modificarProducto(int,string,int);
-    void eliminarProducto(int);
-    void guardar();
-    void generarStreamBinario(ostream *streamSalida);
+    void CrearTienda(string,string,string,string);
+    void AgregarProducto(Producto*);
+    void ModificarProducto(int,string,int);
+    void EliminarProducto(int);
+    void Guardar();
+    void GuardarStreamBinario(ostream *streamSalida);
+    void CargarStreamBinario(istream *streamEntrada);
+    string ConsultarInventario();
 
-    string consultarInventario();
+    friend ostream& operator << (ostream &o, const Tienda *tienda);
 
 };
 

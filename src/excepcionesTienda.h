@@ -42,15 +42,15 @@ class ExcepcionDireccionFisica : public exception{
     }
 };
 
-class ExcepcionTelefonoTiendaInvalido : public exception{
+class ExcepcionTelefono : public exception{
 
     public:
 
-    ExcepcionTelefonoTiendaInvalido() noexcept = default;
-    ~ExcepcionTelefonoTiendaInvalido() = default;
+    ExcepcionTelefono() noexcept = default;
+    ~ExcepcionTelefono() = default;
 
     virtual const char* what() const noexcept {
-        return "Ingrese un telefono valido. Debe contener 8 caracteres.";
+        return "Ingrese un numero de telefono valido. Debe contener 8 caracteres.";
     }
 };
 
@@ -62,7 +62,7 @@ class ExcepcionNegativo : public exception{
 
     virtual const char* what() const noexcept {
 
-        return "No hay productos con IDs iguales o menores que cero";
+        return "No existen productos con ID igual o menor que cero";
         
     }
 };

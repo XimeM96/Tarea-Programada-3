@@ -2,9 +2,11 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "./../src/tienda.h"
 #include "./../src/producto.h"
-#include "./../src/biblioteca.h"
+#include "./../src/tienda.h"
+#include "./../src/excepcionesProducto.h"
+#include "./../src/excepcionesTienda.h"
+
 
 using namespace std;
 
@@ -28,6 +30,24 @@ namespace
         EXPECT_EQ(existenciasEsperadas, existenciasActuales);                
 
         delete producto1;
+
+    }
+
+    TEST(Producto_Test, ExcepcionesProducto_Test){
+
+        Producto *producto = new Producto();                      
+
+        EXPECT_THROW({
+            producto->CrearProducto(3, "Ventilador de maxima potencia version 2000", 7);
+        }, ExcepcionNombreProducto);
+
+        EXPECT_THROW({
+            producto->CrearProducto(-3, "Ventilador", 7);
+        }, ExcepcionIDProducto);
+
+        EXPECT_THROW({
+            producto->CrearProducto(3, "Ventilador", -9);
+        }, ExcepcionExistenciasDisponibles);            
 
     }
 

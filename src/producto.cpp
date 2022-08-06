@@ -4,6 +4,14 @@
 #include <string.h>
 #include <iostream>
 
+Producto::Producto(){
+
+    this->idProducto = 0;
+    strcpy(this->nombreProducto, "");
+    this->existenciasTotales = 0;
+
+}
+
 Producto::Producto(int i,string n,int e){
 
     if (i <= 0){
@@ -11,21 +19,54 @@ Producto::Producto(int i,string n,int e){
         throw ExcepcionIDProducto();
 
     }
-    if (n.size() == 0 || n.size() > 20){
+    else if (n.size() == 0 || n.size() > 20){
 
-        throw ExcepcionNombreProductoInvalido();
+        throw ExcepcionNombreProducto();
 
     }
-    if (e < 0){
+    else if (e < 0){
 
         throw ExcepcionExistenciasDisponibles();
 
-    }  
+    }  else {
 
     this->setIdProducto(i);
     strcpy(this->nombreProducto, n.c_str());
     this->setExistenciasTotales(e);
+    
+    }
 }
+
+void Producto::CrearProducto(int i,string n,int e){
+
+    if (i <= 0){
+
+        throw ExcepcionIDProducto();
+
+    }
+    else if (n.size() == 0 || n.size() > 20){
+
+        throw ExcepcionNombreProducto();
+
+    }
+    else if (e < 0){
+
+        throw ExcepcionExistenciasDisponibles();
+
+    }  else {
+
+    this->idProducto = i;
+    strcpy(this->nombreProducto, n.c_str());
+    this->existenciasTotales = e;
+    
+    }
+}
+
+Producto::~Producto(){
+
+
+}
+
 
 int Producto::getIdProducto(){
 
@@ -55,7 +96,7 @@ void Producto::setIdProducto(int iP){
 
     if (nP.size() == 0 || nP.size() > 20){
 
-        throw ExcepcionNombreProductoInvalido();
+        throw ExcepcionNombreProducto();
 
     }  
 
@@ -72,7 +113,7 @@ void Producto::setExistenciasTotales(int eT){
 
 ostream& operator << (ostream &streamSalida, const Producto *producto)
 {
-    streamSalida << producto->idProducto << ", " << producto->nombreProducto << "Existencias totales del producto: " << producto->existenciasTotales<<endl;
+    streamSalida << "ID: " << producto->idProducto << ", " << "nombre: " << producto->nombreProducto << ", " << "en existencias: " << producto->existenciasTotales;
 
     return streamSalida;
 }
